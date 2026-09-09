@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import re
-from typing import Any
+from typing import Any, Dict, Optional
 
 from .errors import ERRORS
 
 
-def _detect_error_type(message: str) -> str | None:
+def _detect_error_type(message: str) -> Optional[str]:
     """Detect a known error type from a raw error message."""
     for error_type in ERRORS:
         pattern = rf"(?<![A-Za-z0-9_]){re.escape(error_type)}(?![A-Za-z0-9_])"
@@ -19,7 +19,39 @@ def _detect_error_type(message: str) -> str | None:
     return None
 
 
-def analyze_error(error_message: str) -> dict[str, Any]:
+def _extract_location(message: str) -> Dict[str, Any]:
+    """Extract the file path and line number from a Python traceback."""
+    matches = re.findall(
+        r'File "([^"]+)", line (\d+)',
+        message,
+    )
+
+    if not matches:
+        return {
+            "filename": None,
+            "line_number": None,
+        }
+
+    filename, line_number = matches[-1]
+
+    return {
+        "filename": filename,
+        "line_number": int(line_number),
+    }
+
+
+def _extract_error_message(message: str, error_type: str) -> Optional[str]:
+    """Extract the text that follows a known error type."""
+    pattern = rf"(?m)^\s*{re.escape(error_type)}:\s*(.+)$"
+    match = re.search(pattern, message)
+
+    if not match:
+        return None
+
+    return match.group(1).strip()
+
+
+def analyze_error(error_message: str) -> Dict[str, Any]:
     """
     Analyze a programming error and return a structured explanation.
 
@@ -44,9 +76,13 @@ def analyze_error(error_message: str) -> dict[str, Any]:
             "solution_ar": None,
             "example": None,
             "severity": "unknown",
+            "filename": None,
+            "line_number": None,
+            "error_message": None,
             "raw_error": "",
         }
 
+    location = _extract_location(message)
     error_type = _detect_error_type(message)
 
     if error_type:
@@ -62,6 +98,12 @@ def analyze_error(error_message: str) -> dict[str, Any]:
             "solution_ar": details["solution_ar"],
             "example": details["example"],
             "severity": details["severity"],
+            "filename": location["filename"],
+            "line_number": location["line_number"],
+            "error_message": _extract_error_message(
+                message,
+                error_type,
+            ),
             "raw_error": message,
         }
 
@@ -80,5 +122,8 @@ def analyze_error(error_message: str) -> dict[str, Any]:
         ),
         "example": None,
         "severity": "unknown",
+        "filename": location["filename"],
+        "line_number": location["line_number"],
+        "error_message": None,
         "raw_error": message,
     }
