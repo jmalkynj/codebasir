@@ -90,3 +90,20 @@ def test_empty_error():
     assert result["found"] is False
     assert result["error_type"] is None
     assert result["severity"] == "unknown"
+
+
+def test_none_error():
+    result = analyze_error(None)
+
+    assert result["found"] is False
+    assert result["error_type"] is None
+    assert result["severity"] == "unknown"
+
+
+def test_error_type_inside_larger_word_is_not_detected():
+    result = analyze_error(
+        "MyTypeErrorHandler: something went wrong"
+    )
+
+    assert result["found"] is False
+    assert result["error_type"] == "Unknown"
