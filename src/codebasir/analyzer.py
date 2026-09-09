@@ -8,6 +8,17 @@ from typing import Any
 from .errors import ERRORS
 
 
+def _detect_error_type(message: str) -> str | None:
+    """Detect a known error type from a raw error message."""
+    for error_type in ERRORS:
+        pattern = rf"(?<![A-Za-z0-9_]){re.escape(error_type)}(?![A-Za-z0-9_])"
+
+        if re.search(pattern, message):
+            return error_type
+
+    return None
+
+
 def analyze_error(error_message: str) -> dict[str, Any]:
     """
     Analyze a programming error and return a structured explanation.
@@ -18,7 +29,10 @@ def analyze_error(error_message: str) -> dict[str, Any]:
     Returns:
         A dictionary containing the detected error and its explanation.
     """
-    message = error_message.strip()
+    if error_message is None:
+        message = ""
+    else:
+        message = str(error_message).strip()
 
     if not message:
         return {
@@ -33,20 +47,23 @@ def analyze_error(error_message: str) -> dict[str, Any]:
             "raw_error": "",
         }
 
-    for error_type, details in ERRORS.items():
-        if re.search(rf"\b{re.escape(error_type)}\b", message):
-            return {
-                "found": True,
-                "error_type": error_type,
-                "language": details["language"],
-                "title_ar": details["title_ar"],
-                "explanation_ar": details["explanation_ar"],
-                "cause_ar": details["cause_ar"],
-                "solution_ar": details["solution_ar"],
-                "example": details["example"],
-                "severity": details["severity"],
-                "raw_error": message,
-            }
+    error_type = _detect_error_type(message)
+
+    if error_type:
+        details = ERRORS[error_type]
+
+        return {
+            "found": True,
+            "error_type": error_type,
+            "language": details["language"],
+            "title_ar": details["title_ar"],
+            "explanation_ar": details["explanation_ar"],
+            "cause_ar": details["cause_ar"],
+            "solution_ar": details["solution_ar"],
+            "example": details["example"],
+            "severity": details["severity"],
+            "raw_error": message,
+        }
 
     return {
         "found": False,
