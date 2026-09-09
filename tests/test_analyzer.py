@@ -1,4 +1,4 @@
-from src.codebasir.analyzer import analyze_error
+from codebasir.analyzer import analyze_error
 
 
 def test_module_not_found_error():
