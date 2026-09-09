@@ -107,3 +107,35 @@ def test_error_type_inside_larger_word_is_not_detected():
 
     assert result["found"] is False
     assert result["error_type"] == "Unknown"
+
+
+def test_traceback_location_and_message():
+    result = analyze_error(
+        'Traceback (most recent call last):\n'
+        '  File "/home/jamal/app.py", line 42, in <module>\n'
+        '    value = int("hello")\n'
+        'ValueError: invalid literal for int() with base 10: \'hello\''
+    )
+
+    assert result["found"] is True
+    assert result["error_type"] == "ValueError"
+    assert result["filename"] == "/home/jamal/app.py"
+    assert result["line_number"] == 42
+    assert "invalid literal for int()" in result["error_message"]
+
+
+def test_traceback_uses_last_location():
+    result = analyze_error(
+        'Traceback (most recent call last):\n'
+        '  File "/home/jamal/main.py", line 10, in <module>\n'
+        '    helper()\n'
+        '  File "/home/jamal/helper.py", line 27, in helper\n'
+        '    items[10]\n'
+        'IndexError: list index out of range'
+    )
+
+    assert result["found"] is True
+    assert result["error_type"] == "IndexError"
+    assert result["filename"] == "/home/jamal/helper.py"
+    assert result["line_number"] == 27
+    assert result["error_message"] == "list index out of range"
