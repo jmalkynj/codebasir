@@ -20,7 +20,7 @@ def analyze_error(error_message: str) -> dict[str, Any]:
     """
     message = error_message.strip()
 
-   if not message:
+    if not message:
     return {
         "found": False,
         "error_type": None,
