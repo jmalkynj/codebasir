@@ -20,13 +20,18 @@ def analyze_error(error_message: str) -> dict[str, Any]:
     """
     message = error_message.strip()
 
-    if not message:
-        return {
-            "found": False,
-            "error_type": None,
-            "title_ar": "رسالة الخطأ فارغة",
-            "explanation_ar": "أرسل رسالة خطأ حتى يتمكن CodeBasir من تحليلها.",
-        }
+   if not message:
+    return {
+        "found": False,
+        "error_type": None,
+        "title_ar": "رسالة الخطأ فارغة",
+        "explanation_ar": "أرسل رسالة خطأ حتى يتمكن CodeBasir من تحليلها.",
+        "cause_ar": None,
+        "solution_ar": None,
+        "example": None,
+        "severity": "unknown",
+        "raw_error": "",
+    }
 
     for error_type, details in ERRORS.items():
         if re.search(rf"\b{re.escape(error_type)}\b", message):
