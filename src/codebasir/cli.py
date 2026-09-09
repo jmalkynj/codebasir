@@ -40,6 +40,15 @@ def main() -> None:
     if result.get("example"):
         print(f"مثال: {result['example']}")
 
+    if result.get("filename"):
+        print(f"الملف: {result['filename']}")
+
+    if result.get("line_number") is not None:
+        print(f"رقم السطر: {result['line_number']}")
+
+    if result.get("error_message"):
+        print(f"رسالة الخطأ: {result['error_message']}")
+
     print(f"الخطورة: {result['severity']}")
     print()
 
