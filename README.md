@@ -2,6 +2,11 @@
 
 > **Understand your code. Fix your errors.**
 
+[![Tests](https://github.com/jmalkynj/codebasir/actions/workflows/tests.yml/badge.svg)](https://github.com/jmalkynj/codebasir/actions/workflows/tests.yml)
+[![Release](https://img.shields.io/github/v/tag/jmalkynj/codebasir?label=release)](https://github.com/jmalkynj/codebasir/releases)
+[![License](https://img.shields.io/github/license/jmalkynj/codebasir)](https://github.com/jmalkynj/codebasir/blob/main/LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
+
 CodeBasir is an open-source developer tool that helps programmers understand programming errors in a simple and clear way.
 
 It analyzes error messages and provides explanations, possible causes, practical solutions, examples, severity levels, and traceback details.
@@ -126,6 +131,9 @@ CodeBasir will analyze the error and display:
 - Suggested solution
 - Example
 - Severity level
+- File location when available
+- Line number when available
+- Extracted error message when available
 
 ## 🐍 Python Usage
 
@@ -176,8 +184,12 @@ The project uses GitHub Actions to automatically run tests across multiple Pytho
 ```text
 codebasir/
 ├── .github/
-│   └── workflows/
-│       └── tests.yml
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   ├── workflows/
+│   │   └── tests.yml
+│   └── PULL_REQUEST_TEMPLATE.md
 ├── src/
 │   └── codebasir/
 │       ├── __init__.py
@@ -187,9 +199,11 @@ codebasir/
 ├── tests/
 │   ├── test_analyzer.py
 │   └── test_cli.py
+├── CONTRIBUTING.md
 ├── LICENSE
-├── pyproject.toml
-└── README.md
+├── README.md
+├── SECURITY.md
+└── pyproject.toml
 ```
 
 ## 🗺️ Roadmap
@@ -231,9 +245,10 @@ codebasir/
 
 ### Phase 5 — Community
 
-- [ ] Contribution guidelines
-- [ ] Issue templates
-- [ ] Pull request templates
+- [x] Contribution guidelines
+- [x] Issue templates
+- [x] Pull request templates
+- [x] Security policy
 - [ ] Community-contributed error definitions
 
 ## 🤝 Contributing
@@ -249,7 +264,11 @@ You can help improve CodeBasir by:
 - Suggesting new features
 - Improving documentation
 
-Please open an issue or submit a pull request to contribute.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a contribution.
+
+## 🔐 Security
+
+For information about reporting security vulnerabilities, please read [SECURITY.md](SECURITY.md).
 
 ## 📄 License
 
