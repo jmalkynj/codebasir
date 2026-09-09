@@ -9,9 +9,40 @@ description = "Arabic developer tool that explains programming errors and sugges
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
+
 authors = [
     { name = "Jamal Almarhabi" }
 ]
+
+keywords = [
+    "python",
+    "errors",
+    "debugging",
+    "developer-tools",
+    "arabic",
+    "traceback",
+    "cli"
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/jmalkynj/codebasir"
+Repository = "https://github.com/jmalkynj/codebasir"
+Issues = "https://github.com/jmalkynj/codebasir/issues"
 
 [project.scripts]
 codebasir = "codebasir.cli:main"
