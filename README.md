@@ -4,7 +4,7 @@
 
 CodeBasir is an open-source developer tool that helps programmers understand programming errors in a simple and clear way.
 
-It analyzes error messages and provides explanations, possible causes, practical solutions, examples, and severity levels.
+It analyzes error messages and provides explanations, possible causes, practical solutions, examples, severity levels, and traceback details.
 
 ## 🎯 Why CodeBasir?
 
@@ -18,6 +18,9 @@ CodeBasir aims to make programming errors easier to understand by providing:
 - Suggested solution
 - Practical example
 - Severity level
+- Traceback file location
+- Traceback line number
+- Extracted error message
 
 ## 🚀 Project Status
 
@@ -32,8 +35,37 @@ The current version supports:
 - `ModuleNotFoundError`
 - `NameError`
 - `SyntaxError`
+- `TypeError`
+- `ValueError`
+- `IndexError`
+- `KeyError`
+- `AttributeError`
 
 More error types and programming languages will be added in future releases.
+
+## 🔍 Traceback Analysis
+
+CodeBasir can also analyze Python traceback information.
+
+For example:
+
+```text
+Traceback (most recent call last):
+  File "/home/jamal/app.py", line 42, in <module>
+    value = int("hello")
+ValueError: invalid literal for int() with base 10: 'hello'
+```
+
+CodeBasir can extract:
+
+```text
+Error type: ValueError
+File: /home/jamal/app.py
+Line: 42
+Message: invalid literal for int() with base 10: 'hello'
+```
+
+This makes it easier to understand where an error happened and what caused it.
 
 ## 💡 Example
 
@@ -109,6 +141,26 @@ result = analyze_error(
 print(result)
 ```
 
+For a complete traceback:
+
+```python
+from codebasir.analyzer import analyze_error
+
+traceback_text = """
+Traceback (most recent call last):
+  File "/home/jamal/app.py", line 42, in <module>
+    value = int("hello")
+ValueError: invalid literal for int()
+"""
+
+result = analyze_error(traceback_text)
+
+print(result["error_type"])
+print(result["filename"])
+print(result["line_number"])
+print(result["error_message"])
+```
+
 ## 🧪 Running Tests
 
 Run the test suite with:
@@ -133,7 +185,8 @@ codebasir/
 │       ├── cli.py
 │       └── errors.py
 ├── tests/
-│   └── test_analyzer.py
+│   ├── test_analyzer.py
+│   └── test_cli.py
 ├── LICENSE
 ├── pyproject.toml
 └── README.md
@@ -153,10 +206,12 @@ codebasir/
 
 ### Phase 2 — Error Knowledge Base
 
-- [ ] Add more Python errors
-- [ ] Improve error classification
-- [ ] Add more practical examples
-- [ ] Improve severity classification
+- [x] Add common Python errors
+- [x] Improve error classification
+- [x] Add practical examples
+- [x] Add severity classification
+- [x] Traceback file and line extraction
+- [x] Error message extraction
 
 ### Phase 3 — Additional Programming Languages
 
